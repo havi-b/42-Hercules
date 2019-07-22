@@ -1,0 +1,25 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    NemeanLion                                         :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: hbhuiyan <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/03/01 15:00:56 by hbhuiyan          #+#    #+#              #
+#    Updated: 2019/04/02 21:46:14 by hbhuiyan         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+#!/bin/bash
+
+if (($EUID != 0)); then
+	echo "You must be root user!"
+else
+	apt update -y && apt upgrade -y
+	apt install -y openssh-server
+	sed -i 's/#Port 22/Port 50042/' /etc/ssh/sshd_config
+	sed -i 's/#   Port 22/    Port 50042/' /etc/ssh/ssh_config
+	service ssh restart
+	echo "SSH Port changed successfully"
+	echo "Congratulations! You are now hidden in the shadows"
+fi
